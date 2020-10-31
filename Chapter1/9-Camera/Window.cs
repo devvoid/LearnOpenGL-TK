@@ -112,7 +112,7 @@ namespace LearnOpenTK
             CursorVisible = false;
             CursorGrabbed = true;
 
-            base.OnLoad(e);
+             base.OnLoad(e);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
