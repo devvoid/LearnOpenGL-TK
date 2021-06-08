@@ -1,5 +1,5 @@
 ﻿using LearnOpenTK.Common;
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTK.Windowing.Desktop;
@@ -34,14 +34,14 @@ namespace LearnOpenTK
             1, 2, 3  // Then the second will be the top-right half of the triangle
         };
 
-        private int _vertexBufferObject;
+        private uint _vertexBufferObject;
 
-        private int _vertexArrayObject;
+        private uint _vertexArrayObject;
 
         private Shader _shader;
 
         // Add a handle for the EBO
-        private int _elementBufferObject;
+        private uint _elementBufferObject;
 
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
             : base(gameWindowSettings, nativeWindowSettings)
@@ -53,8 +53,8 @@ namespace LearnOpenTK
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
             _vertexBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
+            GL.BindBuffer(BufferTargetARB.ArrayBuffer, _vertexBufferObject);
+            GL.BufferData(BufferTargetARB.ArrayBuffer, _vertices, BufferUsageARB.StaticDraw);
 
             _vertexArrayObject = GL.GenVertexArray();
             GL.BindVertexArray(_vertexArrayObject);
@@ -69,9 +69,9 @@ namespace LearnOpenTK
             // Another sneaky part is that you don't need to unbind the buffer in ElementArrayBuffer as unbinding the VAO is going to do this,
             // and unbinding the EBO will remove it from the VAO instead of unbinding it like you would for VBOs or VAOs.
             _elementBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _elementBufferObject);
+            GL.BindBuffer(BufferTargetARB.ElementArrayBuffer, _elementBufferObject);
             // We also upload data to the EBO the same way as we did with VBOs.
-            GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTargetARB.ElementArrayBuffer, _indices, BufferUsageARB.StaticDraw);
             // The EBO has now been properly setup. Go to the Render function to see how we draw our rectangle now!
 
             _shader = new Shader("Shaders/shader.vert", "Shaders/shader.frag");
@@ -123,7 +123,7 @@ namespace LearnOpenTK
 
         protected override void OnUnload()
         {
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            GL.BindBuffer(BufferTargetARB.ArrayBuffer, 0);
             GL.BindVertexArray(0);
             GL.UseProgram(0);
 

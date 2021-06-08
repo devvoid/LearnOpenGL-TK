@@ -1,5 +1,5 @@
 ﻿using LearnOpenTK.Common;
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
@@ -27,11 +27,11 @@ namespace LearnOpenTK
             1, 2, 3
         };
 
-        private int _elementBufferObject;
+        private uint _elementBufferObject;
 
-        private int _vertexBufferObject;
+        private uint _vertexBufferObject;
 
-        private int _vertexArrayObject;
+        private uint _vertexArrayObject;
 
         private Shader _shader;
 
@@ -68,12 +68,12 @@ namespace LearnOpenTK
             GL.BindVertexArray(_vertexArrayObject);
 
             _vertexBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
+            GL.BindBuffer(BufferTargetARB.ArrayBuffer, _vertexBufferObject);
+            GL.BufferData(BufferTargetARB.ArrayBuffer, _vertices, BufferUsageARB.StaticDraw);
 
             _elementBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _elementBufferObject);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
+            GL.BindBuffer(BufferTargetARB.ElementArrayBuffer, _elementBufferObject);
+            GL.BufferData(BufferTargetARB.ElementArrayBuffer, _indices, BufferUsageARB.StaticDraw);
 
             // shader.vert has been modified. Take a look at it after the explanation in OnRenderFrame.
             _shader = new Shader("Shaders/shader.vert", "Shaders/shader.frag");
@@ -169,7 +169,7 @@ namespace LearnOpenTK
 
         protected override void OnUnload()
         {
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            GL.BindBuffer(BufferTargetARB.ArrayBuffer, 0);
             GL.BindVertexArray(0);
             GL.UseProgram(0);
 

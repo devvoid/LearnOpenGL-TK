@@ -1,5 +1,5 @@
 using LearnOpenTK.Common;
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
@@ -66,14 +66,14 @@ namespace LearnOpenTK
         // This is the position of both the light and the place the lamp cube will be drawn in the scene
         private readonly Vector3 _lightPos = new Vector3(1.2f, 1.0f, 2.0f);
 
-        private int _vertexBufferObject;
+        private uint _vertexBufferObject;
 
         // I renamed the vertex array object since we now want two VAO's one for the model (the big cube for testing light shaders),
         // and one for the lamp so we can see where the light source comes from.
         // In an actual application you would probably either not draw the lamp at all or draw it with a model of a lamp of some sort.
-        private int _vaoModel;
+        private uint _vaoModel;
 
-        private int _vaoLamp;
+        private uint _vaoLamp;
 
         // We also need two shaders, one for the lamp and one for our lighting material.
         // The lighting shader is where most of this chapter will take place as this is where a lot of the lighting "magic" happens.
@@ -99,8 +99,8 @@ namespace LearnOpenTK
             GL.Enable(EnableCap.DepthTest);
 
             _vertexBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
+            GL.BindBuffer(BufferTargetARB.ArrayBuffer, _vertexBufferObject);
+            GL.BufferData(BufferTargetARB.ArrayBuffer, _vertices, BufferUsageARB.StaticDraw);
 
             // Load the two different shaders, they use the same vertex shader program. However they have two different fragment shaders.
             // This is because the lamp only uses a basic shader to turn it white, it wouldn't make sense to have the lamp lit in other colors.
@@ -251,7 +251,7 @@ namespace LearnOpenTK
 
         protected override void OnUnload()
         {
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            GL.BindBuffer(BufferTargetARB.ArrayBuffer, 0);
             GL.BindVertexArray(0);
             GL.UseProgram(0);
 

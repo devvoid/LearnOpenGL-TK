@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using OpenTK.Graphics.OpenGL4;
 using LearnOpenTK.Common;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
@@ -12,7 +12,6 @@ namespace LearnOpenTK
     // To Shaders at any point during the project
     public class Window : GameWindow
     {
-
         private readonly float[] _vertices =
         {
             -0.5f, -0.5f, 0.0f, // Bottom-left vertex
@@ -25,9 +24,9 @@ namespace LearnOpenTK
         // The stopwatch is perfect for this as it's a constantly going up
         private Stopwatch _timer;
 
-        private int _vertexBufferObject;
+        private uint _vertexBufferObject;
 
-        private int _vertexArrayObject;
+        private uint _vertexArrayObject;
 
         private Shader _shader;
 
@@ -42,8 +41,8 @@ namespace LearnOpenTK
 
             _vertexBufferObject = GL.GenBuffer();
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
+            GL.BindBuffer(BufferTargetARB.ArrayBuffer, _vertexBufferObject);
+            GL.BufferData(BufferTargetARB.ArrayBuffer, _vertices, BufferUsageARB.StaticDraw);
 
             _vertexArrayObject = GL.GenVertexArray();
             GL.BindVertexArray(_vertexArrayObject);
@@ -51,7 +50,8 @@ namespace LearnOpenTK
             GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
             GL.EnableVertexAttribArray(0);
 
-            GL.GetInteger(GetPName.MaxVertexAttribs, out int maxAttributeCount);
+            var maxAttributeCount = 0;
+            GL.GetInteger(GetPName.MaxVertexAttribs, ref maxAttributeCount);
             Debug.WriteLine($"Maximum number of vertex attributes supported: {maxAttributeCount}");
 
             _shader = new Shader("Shaders/shader.vert", "Shaders/shader.frag");
@@ -85,7 +85,7 @@ namespace LearnOpenTK
 
             // Here we're assigning the ourColor variable in the frag shader 
             // Via the OpenGL Uniform method which takes in the value as the individual vec values (which total 4 in this instance)
-            GL.Uniform4(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+            GL.Uniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
             // You can alternatively use this overload of the same function
             // GL.Uniform4(vertexColorLocation, new OpenTK.Mathematics.Color4(0f, greenValue, 0f, 0f));
@@ -120,7 +120,7 @@ namespace LearnOpenTK
 
         protected override void OnUnload()
         {
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            GL.BindBuffer(BufferTargetARB.ArrayBuffer, 0);
             GL.BindVertexArray(0);
             GL.UseProgram(0);
 

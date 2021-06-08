@@ -13,10 +13,8 @@ namespace LearnOpenTK
                 Title = "LearnOpenTK - Lighting maps",
             };
 
-            using (var window = new Window(GameWindowSettings.Default, nativeWindowSettings))
-            {
-                window.Run();
-            }
+            using var window = new Window(GameWindowSettings.Default, nativeWindowSettings);
+            window.Run();
         }
     }
 }

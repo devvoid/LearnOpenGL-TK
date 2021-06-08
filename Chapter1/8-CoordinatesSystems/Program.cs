@@ -13,10 +13,8 @@ namespace LearnOpenTK
                 Title = "LearnOpenTK - Coordinates Systems",
             };
 
-            using (var window = new Window(GameWindowSettings.Default, nativeWindowSettings))
-            {
-                window.Run();
-            }
+            using var window = new Window(GameWindowSettings.Default, nativeWindowSettings);
+            window.Run();
         }
     }
 }

@@ -1,23 +1,23 @@
-﻿using OpenTK.Graphics.OpenGL4;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
-using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
+using OpenTK.Graphics.OpenGL;
+using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
 namespace LearnOpenTK.Common
 {
     // A helper class, much like Shader, meant to simplify loading textures.
     public class Texture
     {
-        public readonly int Handle;
+        public readonly uint Handle;
 
         public static Texture LoadFromFile(string path)
         {
             // Generate handle
-            int handle = GL.GenTexture();
+            uint handle = GL.GenTexture();
 
             // Bind the handle
             GL.ActiveTexture(TextureUnit.Texture0);
-            GL.BindTexture(TextureTarget.Texture2D, handle);
+            GL.BindTexture(TextureTarget.Texture2d, handle);
 
             // For this example, we're going to use .NET's built-in System.Drawing library to load textures.
 
@@ -48,9 +48,9 @@ namespace LearnOpenTK.Common
                 //   The format of the pixels, explained above. Since we loaded the pixels as ARGB earlier, we need to use BGRA.
                 //   Data type of the pixels.
                 //   And finally, the actual pixels.
-                GL.TexImage2D(TextureTarget.Texture2D,
+                GL.TexImage2D(TextureTarget.Texture2d,
                     0,
-                    PixelInternalFormat.Rgba,
+                    (int)SizedInternalFormat.Rgba8,
                     image.Width,
                     image.Height,
                     0,
@@ -66,13 +66,13 @@ namespace LearnOpenTK.Common
             // You could also use (amongst other options) Nearest, which just grabs the nearest pixel, which makes the texture look pixelated if scaled too far.
             // NOTE: The default settings for both of these are LinearMipmap. If you leave these as default but don't generate mipmaps,
             // your image will fail to render at all (usually resulting in pure black instead).
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            GL.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 
             // Now, set the wrapping mode. S is for the X axis, and T is for the Y axis.
             // We set this to Repeat so that textures will repeat when wrapped. Not demonstrated here since the texture coordinates exactly match
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+            GL.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+            GL.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
 
             // Next, generate mipmaps.
             // Mipmaps are smaller copies of the texture, scaled down. Each mipmap level is half the size of the previous one
@@ -81,12 +81,12 @@ namespace LearnOpenTK.Common
             // This prevents moiré effects, as well as saving on texture bandwidth.
             // Here you can see and read about the morié effect https://en.wikipedia.org/wiki/Moir%C3%A9_pattern
             // Here is an example of mips in action https://en.wikipedia.org/wiki/File:Mipmap_Aliasing_Comparison.png
-            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+            GL.GenerateMipmap(TextureTarget.Texture2d);
 
             return new Texture(handle);
         }
 
-        public Texture(int glHandle)
+        public Texture(uint glHandle)
         {
             Handle = glHandle;
         }
@@ -98,7 +98,7 @@ namespace LearnOpenTK.Common
         public void Use(TextureUnit unit)
         {
             GL.ActiveTexture(unit);
-            GL.BindTexture(TextureTarget.Texture2D, Handle);
+            GL.BindTexture(TextureTarget.Texture2d, Handle);
         }
     }
 }

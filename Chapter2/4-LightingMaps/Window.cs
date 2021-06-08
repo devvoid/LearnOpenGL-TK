@@ -1,5 +1,5 @@
 ﻿using LearnOpenTK.Common;
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
@@ -61,11 +61,11 @@ namespace LearnOpenTK
 
         private readonly Vector3 _lightPos = new Vector3(1.2f, 1.0f, 2.0f);
 
-        private int _vertexBufferObject;
+        private uint _vertexBufferObject;
 
-        private int _vaoModel;
+        private uint _vaoModel;
 
-        private int _vaoLamp;
+        private uint _vaoLamp;
 
         private Shader _lampShader;
 
@@ -96,8 +96,8 @@ namespace LearnOpenTK
             GL.Enable(EnableCap.DepthTest);
 
             _vertexBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
+            GL.BindBuffer(BufferTargetARB.ArrayBuffer, _vertexBufferObject);
+            GL.BufferData(BufferTargetARB.ArrayBuffer, _vertices, BufferUsageARB.StaticDraw);
 
             _lightingShader = new Shader("Shaders/shader.vert", "Shaders/lighting.frag");
             _lampShader = new Shader("Shaders/shader.vert", "Shaders/shader.frag");
@@ -272,7 +272,7 @@ namespace LearnOpenTK
 
         protected override void OnUnload()
         {
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            GL.BindBuffer(BufferTargetARB.ArrayBuffer, 0);
             GL.BindVertexArray(0);
             GL.UseProgram(0);
 

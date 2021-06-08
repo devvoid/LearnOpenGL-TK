@@ -13,10 +13,8 @@ namespace LearnOpenTK
                 Title = "LearnOpenTK - Shaders In and Outs!",
             };
 
-            using (var window = new Window(GameWindowSettings.Default, nativeWindowSettings))
-            {
-                window.Run();
-            }
+            using var window = new Window(GameWindowSettings.Default, nativeWindowSettings);
+            window.Run();
         }
     }
 }

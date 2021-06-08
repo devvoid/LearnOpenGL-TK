@@ -12,10 +12,8 @@ namespace LearnOpenTK
                 Title = "LearnOpenTK - Light caster - directional",
             };
 
-            using (var window = new Window(GameWindowSettings.Default, nativeWindowSettings))
-            {
-                window.Run();
-            }
+            using var window = new Window(GameWindowSettings.Default, nativeWindowSettings);
+            window.Run();
         }
     }
 }

@@ -14,10 +14,8 @@ namespace LearnOpenTK
             };
 
             // To create a new window, create a class that extends GameWindow, then call Run() on it.
-            using (var window = new Window(GameWindowSettings.Default, nativeWindowSettings))
-            {
-                window.Run();
-            }
+            using var window = new Window(GameWindowSettings.Default, nativeWindowSettings);
+            window.Run();
 
             // And that's it! That's all it takes to create a window with OpenTK.
         }

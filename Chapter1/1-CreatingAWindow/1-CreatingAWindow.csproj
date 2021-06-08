@@ -3,10 +3,10 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>LearnOpenTK</RootNamespace>
     <AssemblyName>LearnOpenTK</AssemblyName>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenTK" Version="4.4.0" />
+    <PackageReference Include="OpenTK" Version="5.0.0-pre.5" />
   </ItemGroup>
 </Project>

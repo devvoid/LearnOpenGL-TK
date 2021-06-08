@@ -1,10 +1,9 @@
-﻿using System;
-using OpenTK.Graphics.OpenGL4;
+﻿using System.Diagnostics;
 using LearnOpenTK.Common;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using System.Diagnostics;
 
 namespace LearnOpenTK
 
@@ -13,7 +12,6 @@ namespace LearnOpenTK
     // And between each other
     public class Window : GameWindow
     {
-
         private readonly float[] _vertices =
         {
             -0.5f, -0.5f, 0.0f, // Bottom-left vertex
@@ -21,9 +19,9 @@ namespace LearnOpenTK
              0.0f,  0.5f, 0.0f  // Top vertex
         };
 
-        private int _vertexBufferObject;
+        private uint _vertexBufferObject;
 
-        private int _vertexArrayObject;
+        private uint _vertexArrayObject;
 
         private Shader _shader;
 
@@ -38,8 +36,8 @@ namespace LearnOpenTK
 
             _vertexBufferObject = GL.GenBuffer();
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
+            GL.BindBuffer(BufferTargetARB.ArrayBuffer, _vertexBufferObject);
+            GL.BufferData(BufferTargetARB.ArrayBuffer, _vertices, BufferUsageARB.StaticDraw);
 
             _vertexArrayObject = GL.GenVertexArray();
             GL.BindVertexArray(_vertexArrayObject);
@@ -51,7 +49,8 @@ namespace LearnOpenTK
             // So here we're checking to see how many vertex attributes our hardware can handle
             // OpenGL at minimum supports 16 vertex attributes, This only needs to be called 
             // When your intensive attribute work and need to know exactly how many are available to you
-            GL.GetInteger(GetPName.MaxVertexAttribs, out int maxAttributeCount);
+            var maxAttributeCount = 0;
+            GL.GetInteger(GetPName.MaxVertexAttribs, ref maxAttributeCount);
             Debug.WriteLine($"Maximum number of vertex attributes supported: {maxAttributeCount}");
 
             _shader = new Shader("Shaders/shader.vert", "Shaders/shader.frag");
@@ -95,7 +94,7 @@ namespace LearnOpenTK
 
         protected override void OnUnload()
         {
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            GL.BindBuffer(BufferTargetARB.ArrayBuffer, 0);
             GL.BindVertexArray(0);
             GL.UseProgram(0);
 
