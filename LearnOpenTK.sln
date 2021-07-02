@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "4-Shaders-Uniforms", "Chapt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "4-Shaders-MoreAttributes", "Chapter1\4-Shaders-MoreAttributes\4-Shaders-MoreAttributes.csproj", "{EB44CAF3-EB1B-4FD1-B29C-DA592568E013}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OTK5Triangle", "OTK5Triangle\OTK5Triangle.csproj", "{05A46171-8C41-40D1-B2FA-7AC6C8AD34E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -133,6 +135,10 @@ Global
 		{EB44CAF3-EB1B-4FD1-B29C-DA592568E013}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB44CAF3-EB1B-4FD1-B29C-DA592568E013}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB44CAF3-EB1B-4FD1-B29C-DA592568E013}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05A46171-8C41-40D1-B2FA-7AC6C8AD34E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05A46171-8C41-40D1-B2FA-7AC6C8AD34E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05A46171-8C41-40D1-B2FA-7AC6C8AD34E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05A46171-8C41-40D1-B2FA-7AC6C8AD34E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
